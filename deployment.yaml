@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistent-connection
+  labels:
+    app: persistent-connection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: persistent-connection
+  template:
+    metadata:
+      labels:
+        app: persistent-connection
+    spec:
+      containers:
+      - name: persistent-connection
+        image: docker.io/pszeto/persistent-connection
+        imagePullPolicy: Always
+        env:
+        - name: INTERATIONS
+          value: "65535"
+        - name: REQUEST_URL
+          value: "http://localhost:8000"
+        ports:
+        - containerPort: 8000
