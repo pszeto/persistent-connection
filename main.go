@@ -1,12 +1,14 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -43,6 +45,11 @@ func startHTTPRequest() {
 	}
 	counter := 0
 	for i := 0; i < numberOfIteration; i++ {
+
+		isHttps := strings.Contains(url, "https")
+		if isHttps {
+			http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+		}
 		resp, err := http.Get(url)
 		if err != nil {
 			panic(fmt.Sprintf("Error: %v", err))
