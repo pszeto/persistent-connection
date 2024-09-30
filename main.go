@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -48,9 +47,11 @@ func startHTTPRequest() {
 		if err != nil {
 			panic(fmt.Sprintf("Error: %v", err))
 		}
-		io.Copy(ioutil.Discard, resp.Body) // read the response body
-		resp.Body.Close()                  // close the response body
-		log.Printf("HTTP request #%v", counter)
+		body, _ := io.ReadAll(resp.Body)
+		resp.Body.Close() // close the response body
+		log.Printf("HTTP request: #%v", counter)
+		log.Printf("Http request: %s - StatusCode: %d", url, resp.StatusCode)
+		log.Printf("Http request: body: %s", body)
 		counter += 1
 		time.Sleep(time.Duration(1) * time.Second)
 	}
