@@ -1,11 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: simple-server
-  namespace: default
+  name: persistent-connection
 spec:
   selector:
-    app: simple-server
+    app: persistent-connection
   ports:
   - protocol: TCP
     port: 8000
